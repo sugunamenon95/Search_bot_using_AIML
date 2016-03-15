@@ -13,8 +13,10 @@ var request = require('request');
 var http = require('http');
 
 var qs=require('querystring');
-var query_res;
-var dataString;
+var query_res,query;
+var dataString = {"methodName": "searchPersons",
+    "parameters": ["e6e0fbe182df8cc705878cfe52c09893", "nirav"],
+    "serviceName": "com.avinashi.meraCRM.services.search.SearchService"};
 var callback = function(answer, wildCardArray, input){
   console.log(answer + ' | ' + wildCardArray + ' | ' + input);
 
@@ -51,12 +53,13 @@ io.on('connection',function(client) {
   console.log('client connected...');
 
   client.on('search', function (data) {
-    dataString=data;
+    query = data;
+    console.log(query);
   });
 });
 
 
-interpret.findAnswer('search person nirav',callback);
+interpret.findAnswer(query,callback);
 
 
 
