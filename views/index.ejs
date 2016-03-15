@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Search Query</h1>
+    <input type="text" id="query" placeholder="Select query method"> </input><br>
+    <input type="text" id="person-detail" placeholder="Enter person details"> </input><br>
+    <input type="text" id="service-name" placeholder="Service-name"> </input><br>
+    <button id="btn">SEARCH</button>
+    <p><%= title %></p>
+
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script>
+      var socket=io.connect('http://127.0.0.1:3000');
+      $('#btn').click(function(){
+       var query_data={
+         'query-method': $('#query').val(),
+         'detail': $('#person-detail').val(),
+         'service': $('#service-name').val()
+       };
+        var json_text=JSON.stringify(query_data,null,2);
+        //$('#display').after('<pre>' + json_text + '</pre>');
+        socket.on('connect',function(data) {
+          socket.emit('search',json_text);
+        });
+      });
+    </script>
+  </body>
+</html>
